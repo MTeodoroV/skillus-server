@@ -34,9 +34,9 @@ export const problemModel = {
         });
     },
 
-    new(name, description) {
+    new(name, description, multi_response) {
         return new Promise((resolve, reject) => {
-            db.query(`INSERT INTO problem (name, description) VALUES("${name}", "${description}")`, (error, result) => {
+            db.query(`INSERT INTO problem (name, description, multi_response) VALUES("${name}", "${description}", ${multi_response})`, (error, result) => {
                 if (error) {
                     reject(error);
                 } else {

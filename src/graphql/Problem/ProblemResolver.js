@@ -15,7 +15,7 @@ export const problemResolver = {
 
     Mutation: {
         async createProblem(_, args) {
-            const result = await problemModel.new(args.name, args.description);
+            const result = await problemModel.new(args.name, args.description, args.multi_response);
             const skillResult = await problemModel.newProblemSkill(args.skill, result.insertId);
             const problemUser = await problemModel.problemUser(result.insertId, args.createdBy);
 

@@ -12,8 +12,8 @@ const app = express();
 
 app.use(
     cors({
-        origin: "https://skillus-web.vercel.app",
-        //maxAge: 86400,
+        origin: "http://localhost:3000",
+        maxAge: 86400,
         credentials: true,
     })
 );

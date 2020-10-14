@@ -14,5 +14,6 @@ export const queryType = gql`
         problemsByUser(user_id: ID!): [Problem]
         ratings(user_id: ID!): [Rating]
         comments(problem_id: ID!): [Comment]
+        comment(id: ID!): Comment
     }
 `;

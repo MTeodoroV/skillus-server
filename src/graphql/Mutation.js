@@ -20,5 +20,6 @@ export const mutationType = gql`
         removeProblemHelper(problem_id: ID!): Problem
         closeProblem(problem_id: ID, comment: String!, note: Float!): Problem
         addProblemComment(text: String, problem_id: ID, user_id_sender: ID): Comment
+        isBestComment(id: ID! value: Boolean): Comment
     }
 `;

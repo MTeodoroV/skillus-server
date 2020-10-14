@@ -7,5 +7,6 @@ export const commentType = gql`
         date_creation: String
         problem_id: ID
         sender: User
+        is_best_comment: Boolean
     }
 `;

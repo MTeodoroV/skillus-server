@@ -6,6 +6,10 @@ export const commentResolver = {
 	Query: {
 		comments(_, args, context) {
 			return commentModel.list(args.problem_id);
+		},
+
+		comment(_, args, context) {
+			return commentModel.get(args.id);
 		}
 	},
 
@@ -20,6 +24,15 @@ export const commentResolver = {
 				return args;
 			}
 			return new Error('Erro ao tentar adicionar comentário!')
+		},
+
+		async isBestComment(_, args, context) {
+			const response = await commentModel.updateCommentStatus(args.id, args.value);
+			
+			if (response.affectedRows > 0) {
+				return args;
+			}
+			return new Error('Erro ao tentar alterar status do comentário!')
 		}
 	},
 

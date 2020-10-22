@@ -1,5 +1,6 @@
 import db from "../config/connection";
 import { hash } from "bcrypt";
+import { skillModel } from "./SkillModel";
 
 export const userModel = {
     findUserByParam(param, email) {
@@ -15,23 +16,24 @@ export const userModel = {
         });
     },
 
-    selectRandomPhoto() {
-        const query = `SELECT url FROM photo ORDER BY RAND() LIMIT 1;`;
+    getPhotos() {
+        const query = `SELECT P.* FROM photo P`;
         return new Promise((resolve, reject) => {
             db.query(query, (error, result) => {
                 if (error) {
                     reject(error);
                 } else {
-                    resolve(result[0]);
+                    resolve(result);
                 }
             });
         });
     },
+
     all() {
         return new Promise((resolve, reject) => {
             const query = `SELECT U.*, US.name AS status
             FROM user U
-            INNER JOIN user_status US ON US.id = U.user_status_id order by media DESC;`;
+            INNER JOIN user_status US ON US.id = U.user_status_id order by soma DESC;`;
             db.query(query, (error, result) => {
                 if (error) {
                     reject(error);
@@ -46,8 +48,8 @@ export const userModel = {
         return new Promise((resolve, reject) => {
             db.query(
                 `SELECT U.*, US.name AS status
-        FROM user U
-        INNER JOIN user_status US ON US.id = U.user_status_id WHERE U.id = ${id}`,
+                FROM user U
+                INNER JOIN user_status US ON US.id = U.user_status_id WHERE U.id = ${id}`,
                 (error, result) => {
                     if (error) {
                         console.log(error);
@@ -64,6 +66,23 @@ export const userModel = {
         return new Promise((resolve, reject) => {
             db.query(
                 `INSERT INTO user(name,email,password,telephone,description,photo)VALUES("${name}","${email}","${hashedPassword}","${telephone}","${description}","${photo}")`,
+                (error, result) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(result);
+                    }
+                }
+            );
+        });
+    },
+
+    async update(id, name, email, telephone, description, photo, usi) {
+        return new Promise((resolve, reject) => {
+            db.query(
+                `UPDATE user 
+                 SET name="${name}", email="${email}", telephone="${telephone}", description="${description}", photo="${photo}", user_status_id=${usi}
+                 WHERE id=${id}`,
                 (error, result) => {
                     if (error) {
                         reject(error);
@@ -94,7 +113,7 @@ export const userModel = {
         const contactId = [1, 2];
         const data = contactId.map((contact, index) => [userId, contact, value[index]]);
         return new Promise((resolve, reject) => {
-            const query = `INSERT INTO user_contact(user_id,contact_id,value)VALUES ?`;
+            const query = `INSERT user_contact(user_id,contact_id,value)VALUES ?`;
             db.query(query, [data], (error, result) => {
                 if (error) {
                     reject(error);
@@ -103,6 +122,25 @@ export const userModel = {
                 }
             });
         });
+    },
+
+    async editUserContact(userId, value) {
+        const contactId = [1, 2];
+        return await this.getUserContacts(userId).then((contacts) => {
+            return contactId.map((contact, index) => { 
+                if(value[index] == undefined || value[index] == ''){ value[index] = contacts[index].value }
+                return new Promise((resolve, reject) => {
+                    const query = `UPDATE user_contact SET value="${value[index]}" WHERE user_id="${userId}" AND contact_id=${contact}`;
+                    db.query(query, (error, result) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result);
+                        }
+                    });
+                })
+            });
+        })
     },
 
     newUserSkill(userId, skillId) {
@@ -121,13 +159,13 @@ export const userModel = {
 
     getUserRating(userId) {
         return new Promise((resolve, reject) => {
-            const query = `CALL MEDIA(${userId})`;
+            const query = `CALL SOMA(${userId})`;
 
             db.query(query, (error, result) => {
                 if (error) {
                     reject(error);
                 } else {
-                    resolve(result[0][0].media);
+                    resolve(result[0][0].soma);
                 }
             });
         });

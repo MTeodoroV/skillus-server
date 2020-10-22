@@ -7,6 +7,7 @@ export const queryType = gql`
         skill(id: ID!): Skill
         skills: [Skill]
         eu: User
+        photos: [Photo]
         authenticationError: String
         readError: String
         problem(id: ID!): Problem

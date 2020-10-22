@@ -14,6 +14,9 @@ export const userResolver = {
         users() {
             return userModel.all();
         },
+        photos() {
+            return userModel.getPhotos();
+        },
         async user(_, args) {
             const result = await userModel.get(args.id);
 
@@ -27,14 +30,13 @@ export const userResolver = {
     Mutation: {
         async register(_, args) {
             try {
-                const photo = await userModel.selectRandomPhoto();
                 const response = await userModel.register(
                     args.name,
                     args.email,
                     args.password,
                     args.telephone,
                     args.description,
-                    photo.url
+                    args.photo
                 );
                 await userModel.newUserContact(response.insertId, args.contact);
                 await userModel.newUserSkill(response.insertId, args.skill);
@@ -45,6 +47,53 @@ export const userResolver = {
 
             return true;
         },
+
+        async updateProfile(_, args) {
+            return await userModel.get(args.id).then(async (user) => {
+                try {
+                    const response = await userModel.update(
+                        args.id,
+                        args.name ? args.name : user.name,
+                        args.email ? args.email : user.email,
+                        args.telephone ? args.telephone : user.telephone,
+                        args.description ? args.description : user.description,
+                        args.photo ? args.photo : user.photo,
+                        args.user_status_id ? args.user_status_id : user.user_status_id
+                    );
+                    args.contact ? await userModel.editUserContact(args.id, args.contact) : null
+                    args.skill ? await userModel.newUserSkill(args.id, args.skill): null
+                } catch (error) {
+                    console.log(error);
+                    return false;
+                }
+    
+                return true;    
+            })
+        },
+
+        async lockProfile(_, args) {
+            return await userModel.get(args.id).then(async (user) => {
+
+                try {
+                    const response = await userModel.update(
+                        args.id,
+                        "[Conta Deletada]",
+                        user.email,
+                        user.telephone,
+                        user.description,
+                        user.photo,
+                        3
+                    );
+                
+                } catch (error) {
+                    console.log(error);
+                    return false;
+                }
+                
+                return true;    
+            });
+        },
+
     },
 
     User: {
@@ -52,7 +101,7 @@ export const userResolver = {
             return userModel.getUserSkills(parent.id);
         },
 
-        media(parent) {
+        soma(parent) {
             return userModel.getUserRating(parent.id);
         },
 

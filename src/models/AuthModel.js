@@ -38,11 +38,15 @@ export const AuthModel = {
         if (!user) {
             throw new Error("Usuario nao encontrado");
         }
-
+        
         const isValid = await compare(password, user.password);
-
+        
         if (!isValid) {
             throw new Error("Usuario nao encontrado");
+        }
+        
+        if(user.status == 3){
+            throw new Error("Usuario removido do sistema");
         }
 
         sendRefreshToken(context.res, createRefreshToken(user));

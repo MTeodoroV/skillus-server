@@ -52,7 +52,7 @@ export const userResolver = {
             return userModel.getUserSkills(parent.id);
         },
 
-        media(parent) {
+        soma(parent) {
             return userModel.getUserRating(parent.id);
         },
 

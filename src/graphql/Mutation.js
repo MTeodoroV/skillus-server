@@ -7,7 +7,7 @@ export const mutationType = gql`
             email: String!
             password: String!
             telephone: String
-            media: Float
+            soma: Float
             description: String
             skill: [Int]
             contact: [String]

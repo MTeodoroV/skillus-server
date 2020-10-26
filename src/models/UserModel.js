@@ -31,7 +31,7 @@ export const userModel = {
         return new Promise((resolve, reject) => {
             const query = `SELECT U.*, US.name AS status
             FROM user U
-            INNER JOIN user_status US ON US.id = U.user_status_id order by media DESC;`;
+            INNER JOIN user_status US ON US.id = U.user_status_id order by soma DESC;`;
             db.query(query, (error, result) => {
                 if (error) {
                     reject(error);
@@ -121,13 +121,14 @@ export const userModel = {
 
     getUserRating(userId) {
         return new Promise((resolve, reject) => {
-            const query = `CALL MEDIA(${userId})`;
+            const query = `SELECT SUM(rating) as soma FROM user_skill WHERE user_id = ${userId}`;
 
             db.query(query, (error, result) => {
                 if (error) {
                     reject(error);
                 } else {
-                    resolve(result[0][0].media);
+                    console.log(result);
+                    resolve(result[0].soma);
                 }
             });
         });
@@ -152,7 +153,7 @@ export const userModel = {
 
     updateUserSkillRating(userId, skillId, note) {
         return new Promise((resolve, reject) => {
-            const query = `CALL MEDIA_SKILL(${userId}, ${skillId}, ${note})`;
+            const query = `CALL SOMA_SKILL(${userId}, ${skillId}, ${note})`;
 
             db.query(query, (error, result) => {
                 if (error) {

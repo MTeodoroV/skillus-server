@@ -8,7 +8,7 @@ export const userType = gql`
         telephone: String
         date_creation: String
         status: String
-        media: Float
+        soma: Float
         description: String
         photo: String
         skill: [Skill]

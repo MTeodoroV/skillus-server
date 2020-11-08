@@ -151,17 +151,78 @@ export const userModel = {
         });
     },
 
-    updateUserSkillRating(userId, skillId, note) {
+    updateUserSkillRatingteste(userId, skillId) {
+        const verifica = `SELECT skill_id FROM user_skill WHERE user_id = ${userId} AND skill_id = ${skillId}`
+        console.log(verifica)
         return new Promise((resolve, reject) => {
-            const query = `CALL SOMA_SKILL(${userId}, ${skillId}, ${note})`;
-
-            db.query(query, (error, result) => {
-                if (error) {
-                    reject(error);
+            db.query(verifica, (error, result) => {
+                console.log(result)
+                if (result.length == 0) {
+                    const query = `INSERT INTO user_skill (user_id, skill_id, rating) VALUES (?, ?, 1)`;
+                    console.log("else para o insert")
+            
+                        resolve( new Promise((resolve, reject) => {
+                        db.query(query, [userId, skillId] ,(error, result) => {
+                            if (error) {
+                                reject(error);
+                                    } else {
+                                        resolve(result);
+                                    }
+                            })}))
                 } else {
-                    resolve(result);
-                }
-            });
-        });
+                    const query = `CALL SOMA(?,?)`;
+                    console.log("try")
+        
+                    db.query(query, [userId, skillId], (error, result) => {
+                    if (error) {
+                        reject(error);
+                        console.log("error do if")
+                    } else {
+                        resolve(result);
+                        console.log(query)
+                    }
+                });       
+            }
+        })}) ;         
+        /*return new Promise((resolve, reject) => {
+            try{
+                const query = `CALL SOMA(?,?)`;
+                console.log("try")
+
+                db.query(query, [userId, skillId], (error, result) => {
+                    if (error) {
+                        reject(error);
+                        console.log("error do if")
+                    } else {
+                        resolve(result);
+                        console.log(query)
+                    }
+                });         
+            } catch {
+                const query = `INSERT INTO user_skill (user_Id, skill_Id, rating) VALUES (?, ?, 1)`;
+                return new Promise((resolve, reject) => {
+                  db.query(query, [user_id, skill_id, rating] ,(error, result) => {
+                    if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result);
+                        }
+                    });
+                });
+                console.log(query)
+            }
+        });*/
     },
-};
+    
+    insertUserSkillEndingPoint(user_id, skill_id, rating){
+            const query = `INSERT INTO user_skill (user_id, skill_id, rating) VALUES (?, ?, 1)`;
+            return new Promise((resolve, reject) => {
+                db.query(query, [user_id, skill_id, rating] ,(error, result) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+}};

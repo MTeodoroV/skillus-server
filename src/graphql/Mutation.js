@@ -27,7 +27,6 @@ export const mutationType = gql`
         updateUserSkillRating(
             user_Id: ID!
             skill_Id: ID!
-            rating: Int
         ): Boolean
         lockProfile(id: ID!): Boolean
         login(email: String!, password: String!): LoginResponse

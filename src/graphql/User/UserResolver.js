@@ -1,4 +1,5 @@
 import { userModel } from "../../models/UserModel";
+import { ratingModel } from "../../models/ratingModel";
 import { AuthModel } from "../../models/AuthModel";
 
 export const userResolver = {
@@ -45,6 +46,55 @@ export const userResolver = {
 
             return true;
         },
+
+        //async newUpdateSkillEnding(_, args){
+          //  try{
+            /*    const endPoint = await userModel.insertUserSkillEndingPoint(
+                    args.user_id,
+                    args.skill_id,
+                    args.note
+                )
+                const collect = await ratingModel.new(
+                    args.problemId,
+                    args.note,
+                    args.comment
+                )
+                console.log(collect)
+                const response = await userModel.updateUserSkillRating(
+                    args.user_Id,
+                    args.skill_Id,
+                    collect.note
+                );
+                console.log(response)
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+
+            return true;
+        },*/
+
+        async updateUserSkillRating(_, args){
+            try{
+                const response = await userModel.updateUserSkillRatingteste(
+                    args.user_Id,
+                    args.skill_Id,
+                )
+
+                //const endPoint = await userModel.insertUserSkillEndingPoint(
+                  //  response.user_id,
+                   // response.skill_id,
+                    //args.note
+                //)
+                console.log(response)
+                //console.log(endPoint)
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+
+            return true;
+        },
     },
 
     User: {
@@ -52,7 +102,7 @@ export const userResolver = {
             return userModel.getUserSkills(parent.id);
         },
 
-        media(parent) {
+        soma(parent) {
             return userModel.getUserRating(parent.id);
         },
 

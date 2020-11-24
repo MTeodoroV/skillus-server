@@ -36,6 +36,7 @@ export const ratingModel = {
     new(problemId, note, comment) {
         const query = `INSERT INTO rating (problem_id, note, comment) VALUES (?, ?, ?)`;
         const data = [problemId, note, comment];
+        console.log(query);
         return new Promise((resolve, reject) => {
             db.query(query, data, (error, result) => {
                 if (error) {

@@ -7,10 +7,15 @@ export const mutationType = gql`
             email: String!
             password: String!
             telephone: String
-            media: Float
+            soma: Float
             description: String
             skill: [Int]
             contact: [String]
+        ): Boolean
+        updateUserSkillRating(
+            user_Id: ID!
+            skill_Id: ID!
+            rating: Int
         ): Boolean
         login(email: String!, password: String!): LoginResponse
         createSkill(name: String, category_id: Int): Skill

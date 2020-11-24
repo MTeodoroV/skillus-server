@@ -12,14 +12,15 @@ const app = express();
 
 app.use(
     cors({
-        origin: "https://skillus-web.vercel.app",
+        origin: "http://localhost:3000",
+        //origin: "https://skillus-web.vercel.app",
         //maxAge: 86400,
         credentials: true,
     })
 );
 
 app.use(helmet());
-app.use(morgan("tiny"));
+//app.use(morgan("tiny"));
 
 app.use("/refresh_token", cookieParser());
 app.post("/refresh_token", refreshToken);

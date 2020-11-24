@@ -184,34 +184,6 @@ export const userModel = {
                 });       
             }
         })}) ;         
-        /*return new Promise((resolve, reject) => {
-            try{
-                const query = `CALL SOMA(?,?)`;
-                console.log("try")
-
-                db.query(query, [userId, skillId], (error, result) => {
-                    if (error) {
-                        reject(error);
-                        console.log("error do if")
-                    } else {
-                        resolve(result);
-                        console.log(query)
-                    }
-                });         
-            } catch {
-                const query = `INSERT INTO user_skill (user_Id, skill_Id, rating) VALUES (?, ?, 1)`;
-                return new Promise((resolve, reject) => {
-                  db.query(query, [user_id, skill_id, rating] ,(error, result) => {
-                    if (error) {
-                            reject(error);
-                        } else {
-                            resolve(result);
-                        }
-                    });
-                });
-                console.log(query)
-            }
-        });*/
     },
     
     insertUserSkillEndingPoint(user_id, skill_id, rating){

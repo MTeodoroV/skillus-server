@@ -32,10 +32,13 @@ export const mutationType = gql`
         login(email: String!, password: String!): LoginResponse
         createSkill(name: String, category_id: Int): Skill
         logout: Boolean
-        createProblem(name: String, description: String, createdBy: Int, skill: [Int]): Problem
+        createProblem(name: String, description: String, createdBy: Int, skill: [Int], multi_response: Boolean): Problem
         addProblemHelper(problem_id: ID!, user_id: ID!): Problem
         removeProblemHelper(problem_id: ID!): Problem
         closeProblem(problem_id: ID, comment: String!, note: Float!): Problem
         addProblemComment(text: String, problem_id: ID, user_id_sender: ID): Comment
+        isBestComment(id: ID! value: Boolean): Comment
+        likeComment(comment_id: ID! user_id: ID!): comment_upvote
+        unlike(comment_id: ID! user_id: ID!): comment_upvote
     }
 `;

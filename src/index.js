@@ -14,7 +14,7 @@ app.use(
     cors({
         origin: "http://localhost:3000",
         //origin: "https://skillus-web.vercel.app",
-        //maxAge: 86400,
+        maxAge: 86400,
         credentials: true,
     })
 );

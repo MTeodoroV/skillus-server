@@ -34,9 +34,9 @@ export const problemModel = {
         });
     },
 
-    new(name, description) {
+    new(name, description, multi_response) {
         return new Promise((resolve, reject) => {
-            db.query(`INSERT INTO problem (name, description) VALUES("${name}", "${description}")`, (error, result) => {
+            db.query(`INSERT INTO problem (name, description, multi_response) VALUES("${name}", "${description}", ${multi_response})`, (error, result) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -242,4 +242,24 @@ export const problemModel = {
             });
         });
     },
+
+    async verify(problemId, helperId) {
+        let resp = true;
+        const helper = await this.getHelper(problemId)
+        const query = `SELECT multi_response FROM problem  WHERE id = ${problemId}`;
+        return new Promise((resolve, reject) => {
+            db.query(query, (error, result) => {
+                if (error) {
+                    reject(error);
+                } else { 
+                    if(result[0].multi_response === 0) {
+                        if(helper === undefined || helper.id.toString() !== helperId){
+                            resp = false;
+                        }
+                    }
+                    resolve(resp);
+                }
+            })
+        })
+	}
 };

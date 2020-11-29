@@ -7,5 +7,12 @@ export const commentType = gql`
         date_creation: String
         problem_id: ID
         sender: User
+        likes: [User]
+        is_best_comment: Boolean
+    }
+
+    type comment_upvote {
+        comment_id: ID
+        user_id: ID
     }
 `;

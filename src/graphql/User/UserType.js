@@ -16,3 +16,10 @@ export const userType = gql`
         type: String
     }
 `;
+
+export const photoType = gql`
+    type Photo {
+        id: ID
+        url: String
+    }
+`;

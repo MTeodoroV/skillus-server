@@ -14,5 +14,6 @@ export const problemType = gql`
         icon: String
         rating: Rating
         skill: [Skill]
+        multi_response: Boolean
     }
 `;

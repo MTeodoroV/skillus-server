@@ -1,5 +1,6 @@
 import { ApolloServer } from "apollo-server-express";
 import { userType } from "./graphql/User/UserType";
+import { photoType } from "./graphql/User/UserType";
 import { userResolver } from "./graphql/User/UserResolver";
 import { queryType } from "./graphql/Query";
 import { skillType } from "./graphql/Skill/SkillType";
@@ -19,7 +20,7 @@ import { commentResolver } from "./graphql/Comment/CommentResolver";
 export const apolloServer = new ApolloServer({
     playground: true,
     introspection: true,
-    typeDefs: [userType, queryType, skillType, contactType, mutationType, AuthType, problemType, ratingType, commentType],
+    typeDefs: [userType, queryType, skillType, contactType, mutationType, AuthType, problemType, ratingType, commentType, photoType],
     resolvers: [userResolver, skillResolver, errorResolver, AuthResolver, problemResolver, ratingResolver, commentResolver],
     context: ({ req, res }) => ({ req, res }),
     formatError: (err) => {

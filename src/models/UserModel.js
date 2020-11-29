@@ -151,7 +151,7 @@ export const userModel = {
         });
     },
 
-    updateUserSkillRatingteste(userId, skillId) {
+    updateUserSkillRating(userId, skillId) {
         const verifica = `SELECT skill_id FROM user_skill WHERE user_id = ${userId} AND skill_id = ${skillId}`
         console.log(verifica)
         return new Promise((resolve, reject) => {

@@ -76,7 +76,7 @@ export const userResolver = {
 
         async updateUserSkillRating(_, args){
             try{
-                const response = await userModel.updateUserSkillRatingteste(
+                const response = await userModel.updateUserSkillRating(
                     args.user_Id,
                     args.skill_Id,
                 )

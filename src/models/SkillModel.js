@@ -3,7 +3,7 @@ import db from "../config/connection";
 export const skillModel = {
     all() {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT * FROM skill  ORDER BY name`, (error, result) => {
+            db.query(`SELECT * FROM skill`, (error, result) => {
                 if (error) {
                     reject(error);
                 } else {
